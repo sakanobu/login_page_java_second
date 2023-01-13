@@ -1,0 +1,23 @@
+package login;
+
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JPanel;
+
+public class ResultPageListener implements ActionListener {
+  JPanel cardLayoutPanel;
+  CardLayout cardLayout;
+
+  public ResultPageListener(JPanel cardLayoutPanel, CardLayout cardLayout) {
+    this.cardLayoutPanel = cardLayoutPanel;
+    this.cardLayout = cardLayout;
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getActionCommand().equals("戻る")) {
+      cardLayout.first(cardLayoutPanel);
+    }
+  }
+}
