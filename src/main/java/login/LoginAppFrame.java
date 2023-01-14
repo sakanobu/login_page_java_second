@@ -1,12 +1,15 @@
 package login;
 
-import java.awt.Button;
-import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class LoginAppFrame extends JFrame {
+  public static void main(String[] args) {
+    LoginAppFrame frame = new LoginAppFrame();
+    frame.setVisible(true);
+  }
+
   public LoginAppFrame() {
     setTitle("ログイン画面");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,19 +19,16 @@ public class LoginAppFrame extends JFrame {
     setSize(width, height);
     setLayout(new FlowLayout());
 
-    JPanel cardLayoutPanel = new JPanel();
-    CardLayout cardLayout = new CardLayout();
-    cardLayoutPanel.setLayout(cardLayout);
-
-    cardLayoutPanel.add(new LoginPagePanel(cardLayoutPanel, cardLayout), "loginPage");
-    cardLayoutPanel.add(new ResultPagePanel(cardLayoutPanel, cardLayout), "resultPage");
-
-
-    add(cardLayoutPanel);
+    JPanel loginPagePanel = new LoginPagePanel();
+    add(loginPagePanel);
   }
 
-  public static void main(String[] args) {
-    LoginAppFrame frame = new LoginAppFrame();
-    frame.setVisible(true);
+  public void change(JPanel panel) {
+    getContentPane().removeAll();
+
+    super.add(panel);
+
+    revalidate();
+    repaint();
   }
 }

@@ -1,23 +1,20 @@
 package login;
 
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JPanel;
 
 public class ResultPageListener implements ActionListener {
-  JPanel cardLayoutPanel;
-  CardLayout cardLayout;
+  private final ResultPagePanel resultPagePanel;
 
-  public ResultPageListener(JPanel cardLayoutPanel, CardLayout cardLayout) {
-    this.cardLayoutPanel = cardLayoutPanel;
-    this.cardLayout = cardLayout;
+  public ResultPageListener(ResultPagePanel resultPagePanel) {
+    this.resultPagePanel = resultPagePanel;
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getActionCommand().equals("戻る")) {
-      cardLayout.first(cardLayoutPanel);
+      LoginAppFrame loginAppFrame = (LoginAppFrame) resultPagePanel.getTopLevelAncestor();
+      loginAppFrame.change(new LoginPagePanel());
     }
   }
 }

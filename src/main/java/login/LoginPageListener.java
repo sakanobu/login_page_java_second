@@ -1,23 +1,20 @@
 package login;
 
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JPanel;
 
 public class LoginPageListener implements ActionListener {
-  JPanel cardLayoutPanel;
-  CardLayout cardLayout;
+  private final LoginPagePanel loginPagePanel;
 
-  public LoginPageListener(JPanel cardLayoutPanel, CardLayout cardLayout) {
-    this.cardLayoutPanel = cardLayoutPanel;
-    this.cardLayout = cardLayout;
+  public LoginPageListener(LoginPagePanel loginPagePanel) {
+    this.loginPagePanel = loginPagePanel;
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getActionCommand().equals("ログイン")) {
-      cardLayout.last(cardLayoutPanel);
+      LoginAppFrame loginAppFrame = (LoginAppFrame) loginPagePanel.getTopLevelAncestor();
+      loginAppFrame.change(new ResultPagePanel());
     }
   }
 }
