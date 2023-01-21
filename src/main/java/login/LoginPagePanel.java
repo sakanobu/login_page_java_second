@@ -65,4 +65,8 @@ public class LoginPagePanel extends JPanel {
   public String getPassword() {
     return passwordField.getText();
   }
+
+  public void setResultLabelText(String resultText) {
+    resultLabel.setText(resultText);
+  }
 }
