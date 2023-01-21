@@ -19,9 +19,9 @@ public class LoginPageListener implements ActionListener {
       if (loginId.equals("")
           && password.equals("")) { // login_idフィールドとpasswordフィールドが両方とも空の場合
         loginPagePanel.setResultLabelText("login_idとpasswordが両方とも空です。");
-      } else if (loginId.equals("")) { // login_idフィールドが空でpasswordフィールドに何らかの値が入力されている場合
+      } else if (loginId.equals("")) { // login_idフィールドのみが空である場合
         loginPagePanel.setResultLabelText("login_idが空です。");
-      } else if (password.equals("")) { // login_idフィールドに何らかの値が入力されpasswordフィールドが空の場合
+      } else if (password.equals("")) { // passwordフィールドのみが空の場合
         loginPagePanel.setResultLabelText("passwordが空です。");
       } else { // login_idフィールドとpasswordフィールドの両方に何らかの値が入力さている場合 
         User user = new UserDao().findUserByLoginIdAndPassword(loginId, password);
@@ -33,7 +33,9 @@ public class LoginPageListener implements ActionListener {
 
           if (!existLoginId
               && !existPassword) { // login_idフィールドの値とpasswordフィールドの値がどちらもuser_authsテーブルに存在しない場合
-            loginPagePanel.setResultLabelText("login_idとpasswordが両方とも存在しません。");
+            loginPagePanel.setResultLabelText("login_idとpasswordが両方ともデータベースに存在しません。");
+          } else if (!existLoginId) { // login_idフィールドの値のみがuser_authsテーブルに存在しない場合
+            loginPagePanel.setResultLabelText("login_idがデータベースに存在しません。");
           }
         }
       }
