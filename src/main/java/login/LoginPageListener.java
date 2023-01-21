@@ -18,7 +18,9 @@ public class LoginPageListener implements ActionListener {
     if (e.getActionCommand().equals("ログイン")) {
       // login_id 入力フィールドと password 入力フィールドが両方とも空の場合
       if (loginId.equals("") && password.equals("")) {
-        loginPagePanel.setResultLabelText("login_id と password が空です。");
+        loginPagePanel.setResultLabelText("login_idとpassword が空です。");
+      } else if (loginId.equals("")) {
+        loginPagePanel.setResultLabelText("login_idが空です。");
       }
 
       // ResultPagePanelへの画面遷移用のコード
