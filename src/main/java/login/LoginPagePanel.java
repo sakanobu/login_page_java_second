@@ -1,5 +1,7 @@
 package login;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -9,6 +11,7 @@ import javax.swing.JTextField;
 public class LoginPagePanel extends JPanel {
   private final JTextField loginIdField;
   private final JTextField passwordField;
+  private final JLabel resultLabel;
 
   public LoginPagePanel() {
     setLayout(null);
@@ -32,14 +35,26 @@ public class LoginPagePanel extends JPanel {
     passwordField.setBounds(90, 80, 620, 30);
     passwordField.setHorizontalAlignment(JLabel.LEFT);
 
+    JPanel resultPanel = new JPanel();
+    resultPanel.setPreferredSize(new Dimension(720, 30));
+    resultPanel.setBounds(20, 130, 690, 30);
+    resultPanel.setBackground(Color.WHITE);
+    resultPanel.setLayout(new BorderLayout());
+
+    resultLabel = new JLabel("結果表示欄");
+    resultLabel.setHorizontalAlignment(JLabel.CENTER);
+
+    resultPanel.add(resultLabel, BorderLayout.CENTER);
+
     JButton loginButton = new JButton("ログイン");
-    loginButton.setBounds(320, 130, 95, 30);
+    loginButton.setBounds(320, 180, 95, 30);
     loginButton.addActionListener(new LoginPageListener(this));
 
     add(loginIdLabel);
     add(loginIdField);
     add(passwordLabel);
     add(passwordField);
+    add(resultPanel);
     add(loginButton);
   }
 }
