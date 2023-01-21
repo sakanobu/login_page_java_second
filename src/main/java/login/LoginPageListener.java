@@ -16,13 +16,26 @@ public class LoginPageListener implements ActionListener {
     String password = loginPagePanel.getPassword();
 
     if (e.getActionCommand().equals("ログイン")) {
-      // login_id 入力フィールドと password 入力フィールドが両方とも空の場合
-      if (loginId.equals("") && password.equals("")) {
-        loginPagePanel.setResultLabelText("login_idとpassword が空です。");
-      } else if (loginId.equals("")) {
+      if (loginId.equals("")
+          && password.equals("")) { // login_idフィールドとpasswordフィールドが両方とも空の場合
+        loginPagePanel.setResultLabelText("login_idとpasswordが両方とも空です。");
+      } else if (loginId.equals("")) { // login_idフィールドが空でpasswordフィールドに何らかの値が入力されている場合
         loginPagePanel.setResultLabelText("login_idが空です。");
-      } else if (password.equals("")) {
+      } else if (password.equals("")) { // login_idフィールドに何らかの値が入力されpasswordフィールドが空の場合
         loginPagePanel.setResultLabelText("passwordが空です。");
+      } else { // login_idフィールドとpasswordフィールドの両方に何らかの値が入力さている場合 
+        User user = new UserDao().findUserByLoginIdAndPassword(loginId, password);
+
+        if (user == null) { // 入力されたlogin_idフィールドの値とpasswordフィールドの値に何らかの問題がある場合
+          UserAuthsTable userAuthsTable = new UserAuthsTable();
+          boolean existLoginId = userAuthsTable.existLoginId(loginId);
+          boolean existPassword = userAuthsTable.existPassword(password);
+
+          if (!existLoginId
+              && !existPassword) { // login_idフィールドの値とpasswordフィールドの値がどちらもuser_authsテーブルに存在しない場合
+            loginPagePanel.setResultLabelText("login_idとpasswordが両方とも存在しません。");
+          }
+        }
       }
 
       // ResultPagePanelへの画面遷移用のコード
