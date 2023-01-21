@@ -57,4 +57,12 @@ public class LoginPagePanel extends JPanel {
     add(resultPanel);
     add(loginButton);
   }
+
+  public String getLoginId() {
+    return loginIdField.getText();
+  }
+
+  public String getPassword() {
+    return passwordField.getText();
+  }
 }
