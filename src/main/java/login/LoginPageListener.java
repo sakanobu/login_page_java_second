@@ -24,15 +24,15 @@ public class LoginPageListener implements ActionListener {
       } else if (password.equals("")) { // passwordフィールドのみが空である場合
         loginPagePanel.setResultLabelText("passwordが空です。");
       } else { // login_idフィールドとpasswordフィールドの両方に何らかの値が入力されている場合
-        User user = new UserDao().findUserByLoginIdAndPassword(loginId, password);
+        UserDao userDao = new UserDao();
+        User user = userDao.findUserByLoginIdAndPassword(loginId, password);
 
         if (user == null) { // 入力されたlogin_idフィールドとpasswordフィールドの値に何らかの問題がある場合
-          UserAuthsTable userAuthsTable = new UserAuthsTable();
           boolean loginIdExists =
-              userAuthsTable.queryForCheckingExistence(UserAuthsTable.CHECK_LOGIN_ID_QUERY,
+              userDao.queryForCheckingExistence(UserDao.CHECK_LOGIN_ID_QUERY,
                   loginId);
           boolean passwordExists =
-              userAuthsTable.queryForCheckingExistence(UserAuthsTable.CHECK_PASSWORD_QUERY,
+              userDao.queryForCheckingExistence(UserDao.CHECK_PASSWORD_QUERY,
                   password);
 
           if (!loginIdExists

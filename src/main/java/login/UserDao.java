@@ -15,6 +15,22 @@ public class UserDao {
   private Connection con = null;
   private PreparedStatement ps = null;
   private ResultSet rs = null;
+  public static final String CHECK_LOGIN_ID_QUERY = """
+      SELECT
+        ua.login_id
+      FROM
+        user_auths AS ua
+      WHERE
+        ua.login_id = ?;
+      """;
+  public static final String CHECK_PASSWORD_QUERY = """
+      SELECT
+      ua.password
+        FROM
+      user_auths AS ua
+        WHERE
+      ua.password = ?;
+      """;
 
   public static void main(String[] args) {
     UserDao userDao = new UserDao();
@@ -154,5 +170,38 @@ public class UserDao {
     }
 
     return user;
+  }
+
+  public boolean queryForCheckingExistence(String query, String target) {
+    boolean targetExists = false;
+
+    try {
+      con = DriverManager.getConnection(url, dbUserName, dbPassword);
+      ps = con.prepareStatement(query);
+      ps.setString(1, target);
+      rs = ps.executeQuery();
+
+      while (rs.next()) {
+        targetExists = true;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (rs != null) {
+          rs.close();
+        }
+        if (ps != null) {
+          ps.close();
+        }
+        if (con != null) {
+          con.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+
+    return targetExists;
   }
 }
