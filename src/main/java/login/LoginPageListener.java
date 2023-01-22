@@ -21,12 +21,12 @@ public class LoginPageListener implements ActionListener {
         loginPagePanel.setResultLabelText("login_idとpasswordが両方とも空です。");
       } else if (loginId.equals("")) { // login_idフィールドのみが空である場合
         loginPagePanel.setResultLabelText("login_idが空です。");
-      } else if (password.equals("")) { // passwordフィールドのみが空の場合
+      } else if (password.equals("")) { // passwordフィールドのみが空である場合
         loginPagePanel.setResultLabelText("passwordが空です。");
-      } else { // login_idフィールドとpasswordフィールドの両方に何らかの値が入力さている場合 
+      } else { // login_idフィールドとpasswordフィールドの両方に何らかの値が入力されている場合
         User user = new UserDao().findUserByLoginIdAndPassword(loginId, password);
 
-        if (user == null) { // 入力されたlogin_idフィールドの値とpasswordフィールドの値に何らかの問題がある場合
+        if (user == null) { // 入力されたlogin_idフィールドとpasswordフィールドの値に何らかの問題がある場合
           UserAuthsTable userAuthsTable = new UserAuthsTable();
           boolean existLoginId = userAuthsTable.existLoginId(loginId);
           boolean existPassword = userAuthsTable.existPassword(password);
@@ -39,13 +39,13 @@ public class LoginPageListener implements ActionListener {
           } else if (!existPassword) { // passwordフィールドの値のみがuser_authsテーブルに存在しない場合
             loginPagePanel.setResultLabelText("passwordがデータベースに存在しません。");
           } else { // login_idフィールドとpasswordフィールドの値の組み合わせが間違っている場合
-            loginPagePanel.setResultLabelText("login_idフィールドとpasswordフィールドの値の組み合わせが間違っています。");
+            loginPagePanel.setResultLabelText("login_idとpasswordの値の組み合わせが間違っています。");
           }
         } else { // 入力されたlogin_idフィールドとpasswordフィールドの値の組み合わせがが正しい場合
-          if (user.retired()) { // usersテーブルのis_retiredカラムの値がTRUEのユーザーであった場合
+          if (user.retired()) { // usersテーブルのis_retiredカラムの値がTRUEであるユーザーであった場合
             loginPagePanel.setResultLabelText("退職しているユーザーです。");
           } else if (user.role()
-              .equals("ログイン不可")) { // rolesテーブルのnameカラムの値が"ログイン不可"のユーザーであった場合
+              .equals("ログイン不可")) { // rolesテーブルのnameカラムの値が"ログイン不可"であるユーザーであった場合
             loginPagePanel.setResultLabelText("ログインが許可されていないユーザーです。");
           } else { // ログインが許可されるユーザーのlogin_idとpasswordが入力された場合
             LoginAppFrame loginAppFrame = (LoginAppFrame) loginPagePanel.getTopLevelAncestor();
