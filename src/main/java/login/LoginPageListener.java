@@ -44,6 +44,9 @@ public class LoginPageListener implements ActionListener {
         } else { // 入力されたlogin_idフィールドとpasswordフィールドの値の組み合わせがが正しい場合
           if (user.getRetired()) { // usersテーブルのis_retiredカラムの値がTRUEのユーザーであった場合
             loginPagePanel.setResultLabelText("退職しているユーザーです。");
+          } else if (user.getRole()
+              .equals("ログイン不可")) { // rolesテーブルのnameカラムの値が"ログイン不可"のユーザーであった場合
+            loginPagePanel.setResultLabelText("ログインが許可されていないユーザーです。");
           }
         }
       }
