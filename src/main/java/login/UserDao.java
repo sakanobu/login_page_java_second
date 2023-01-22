@@ -20,9 +20,9 @@ public class UserDao {
 
     System.out.println("\n↓ userDao.findUserByLoginIdAndPassword(\"login1\", \"password1\")");
     User user1 = userDao.findUserByLoginIdAndPassword("login1", "password1");
-    System.out.printf("%s, %d, %b, %s\n", user1.getName(), user1.getAge(),
-        user1.getRetired(),
-        user1.getRole());
+    System.out.printf("%s, %d, %b, %s\n", user1.name(), user1.age(),
+        user1.retired(),
+        user1.role());
 
     System.out.println(
         "\n↓ userDao.findUserByLoginIdAndPassword(\"login1\", \"incorrectPassword\")");
@@ -30,9 +30,9 @@ public class UserDao {
     if (userNull == null) {
       System.out.printf("%s", userNull);
     } else {
-      System.out.printf("%s, %d, %b, %s\n", userNull.getName(), userNull.getAge(),
-          userNull.getRetired(),
-          userNull.getRole());
+      System.out.printf("%s, %d, %b, %s\n", userNull.name(), userNull.age(),
+          userNull.retired(),
+          userNull.role());
     }
   }
 
