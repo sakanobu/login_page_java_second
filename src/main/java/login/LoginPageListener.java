@@ -28,18 +28,22 @@ public class LoginPageListener implements ActionListener {
 
         if (user == null) { // 入力されたlogin_idフィールドとpasswordフィールドの値に何らかの問題がある場合
           UserAuthsTable userAuthsTable = new UserAuthsTable();
-          boolean existLoginId = userAuthsTable.existLoginId(loginId);
-          boolean existPassword = userAuthsTable.existPassword(password);
+          boolean loginIdExists =
+              userAuthsTable.queryForCheckingExistence(UserAuthsTable.CHECK_LOGIN_ID_QUERY,
+                  loginId);
+          boolean passwordExists =
+              userAuthsTable.queryForCheckingExistence(UserAuthsTable.CHECK_PASSWORD_QUERY,
+                  password);
 
-          if (!existLoginId
-              && !existPassword) { // login_idフィールドとpasswordフィールドの値がどちらもuser_authsテーブルに存在しない場合
+          if (!loginIdExists
+              && !passwordExists) { // login_idフィールドとpasswordフィールドの値がどちらもuser_authsテーブルに存在しない場合
             loginPagePanel.setResultLabelText("login_idとpasswordが両方ともデータベースに存在しません。");
-          } else if (!existLoginId) { // login_idフィールドの値のみがuser_authsテーブルに存在しない場合
+          } else if (!loginIdExists) { // login_idフィールドの値のみがuser_authsテーブルに存在しない場合
             loginPagePanel.setResultLabelText("login_idがデータベースに存在しません。");
-          } else if (!existPassword) { // passwordフィールドの値のみがuser_authsテーブルに存在しない場合
+          } else if (!passwordExists) { // passwordフィールドの値のみがuser_authsテーブルに存在しない場合
             loginPagePanel.setResultLabelText("passwordがデータベースに存在しません。");
           } else { // login_idフィールドとpasswordフィールドの値の組み合わせが間違っている場合
-            loginPagePanel.setResultLabelText("login_idとpasswordの値の組み合わせが間違っています。");
+            loginPagePanel.setResultLabelText("login_idとpasswordの組み合わせが間違っています。");
           }
         } else { // 入力されたlogin_idフィールドとpasswordフィールドの値の組み合わせがが正しい場合
           if (user.retired()) { // usersテーブルのis_retiredカラムの値がTRUEであるユーザーであった場合

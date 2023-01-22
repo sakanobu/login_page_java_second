@@ -14,6 +14,22 @@ public class UserAuthsTable {
   private Connection con = null;
   private PreparedStatement ps = null;
   private ResultSet rs = null;
+  public static final String CHECK_LOGIN_ID_QUERY = """
+      SELECT
+        ua.login_id
+      FROM
+        user_auths AS ua
+      WHERE
+        ua.login_id = ?;
+      """;
+  public static final String CHECK_PASSWORD_QUERY = """
+      SELECT
+      ua.password
+        FROM
+      user_auths AS ua
+        WHERE
+      ua.password = ?;
+      """;
 
   public UserAuthsTable() {
     this.url = Dotenv.load().get("MYSQL_URL");
@@ -21,25 +37,17 @@ public class UserAuthsTable {
     this.dbPassword = Dotenv.load().get("MYSQL_PASSWORD");
   }
 
-  public boolean existLoginId(String loginId) {
-    boolean existLoginId = false;
-    String sql = """
-        SELECT
-          ua.login_id
-        FROM
-          user_auths AS ua
-        WHERE
-          ua.login_id = ?;
-        """;
+  public boolean queryForCheckingExistence(String query, String target) {
+    boolean targetExists = false;
 
     try {
       con = DriverManager.getConnection(url, dbUserName, dbPassword);
-      ps = con.prepareStatement(sql);
-      ps.setString(1, loginId);
+      ps = con.prepareStatement(query);
+      ps.setString(1, target);
       rs = ps.executeQuery();
 
       while (rs.next()) {
-        existLoginId = true;
+        targetExists = true;
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -59,47 +67,6 @@ public class UserAuthsTable {
       }
     }
 
-    return existLoginId;
-  }
-
-  public boolean existPassword(String password) {
-    boolean existPassword = false;
-    String sql = """
-        SELECT
-          ua.password
-        FROM
-          user_auths AS ua
-        WHERE
-          ua.password = ?;
-        """;
-
-    try {
-      con = DriverManager.getConnection(url, dbUserName, dbPassword);
-      ps = con.prepareStatement(sql);
-      ps.setString(1, password);
-      rs = ps.executeQuery();
-
-      while (rs.next()) {
-        existPassword = true;
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (rs != null) {
-          rs.close();
-        }
-        if (ps != null) {
-          ps.close();
-        }
-        if (con != null) {
-          con.close();
-        }
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    }
-
-    return existPassword;
+    return targetExists;
   }
 }
