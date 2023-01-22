@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ResultPagePanel extends JPanel {
-  public ResultPagePanel() {
+  public ResultPagePanel(User user) {
     setLayout(null);
     int width = 720;
     int height = 400;
@@ -16,7 +16,7 @@ public class ResultPagePanel extends JPanel {
     nameColumnLabel.setBounds(20, 30, 70, 30);
     nameColumnLabel.setHorizontalAlignment(JLabel.LEFT);
 
-    JLabel nameLabel = new JLabel("テスト");
+    JLabel nameLabel = new JLabel(user.getName());
     nameLabel.setBounds(90, 30, 620, 30);
     nameLabel.setHorizontalAlignment(JLabel.LEFT);
 
@@ -24,7 +24,7 @@ public class ResultPagePanel extends JPanel {
     ageColumnLabel.setBounds(20, 80, 70, 30);
     ageColumnLabel.setHorizontalAlignment(JLabel.LEFT);
 
-    JLabel ageLabel = new JLabel("テスト");
+    JLabel ageLabel = new JLabel("%d 才".formatted(user.getAge()));
     ageLabel.setBounds(90, 80, 620, 30);
     ageLabel.setHorizontalAlignment(JLabel.LEFT);
 
@@ -32,7 +32,7 @@ public class ResultPagePanel extends JPanel {
     roleColumnLabel.setBounds(20, 130, 70, 30);
     roleColumnLabel.setHorizontalAlignment(JLabel.LEFT);
 
-    JLabel roleLabel = new JLabel("テスト");
+    JLabel roleLabel = new JLabel(user.getRole());
     roleLabel.setBounds(90, 130, 620, 30);
     roleLabel.setHorizontalAlignment(JLabel.LEFT);
 

@@ -47,13 +47,12 @@ public class LoginPageListener implements ActionListener {
           } else if (user.getRole()
               .equals("ログイン不可")) { // rolesテーブルのnameカラムの値が"ログイン不可"のユーザーであった場合
             loginPagePanel.setResultLabelText("ログインが許可されていないユーザーです。");
+          } else { // ログインが許可されるユーザーのlogin_idとpasswordが入力された場合
+            LoginAppFrame loginAppFrame = (LoginAppFrame) loginPagePanel.getTopLevelAncestor();
+            loginAppFrame.change(new ResultPagePanel(user));
           }
         }
       }
-
-      // ResultPagePanelへの画面遷移用のコード
-      // LoginAppFrame loginAppFrame = (LoginAppFrame) loginPagePanel.getTopLevelAncestor();
-      // loginAppFrame.change(new ResultPagePanel());
     }
   }
 }
