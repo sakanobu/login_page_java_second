@@ -16,7 +16,7 @@ public class LoginPagePanel extends JPanel {
   public LoginPagePanel() {
     setLayout(null);
     int width = 720;
-    int height = 400;
+    int height = 600;
     setPreferredSize(new Dimension(width, height));
 
     JLabel loginIdLabel = new JLabel("login_id");
@@ -50,12 +50,16 @@ public class LoginPagePanel extends JPanel {
     loginButton.setBounds(320, 180, 95, 30);
     loginButton.addActionListener(new LoginPageListener(this));
 
+    UsersListPanel usersListPanel = new UsersListPanel();
+    usersListPanel.setBounds(20, 230, 680, 370);
+
     add(loginIdLabel);
     add(loginIdField);
     add(passwordLabel);
     add(passwordField);
     add(resultPanel);
     add(loginButton);
+    add(usersListPanel);
   }
 
   public String getLoginId() {
