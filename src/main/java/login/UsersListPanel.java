@@ -14,7 +14,7 @@ public class UsersListPanel extends JPanel {
     setPreferredSize(new Dimension(width, height));
     setBackground(Color.WHITE);
 
-    this.add(new JLabel("user_id  |  name  |  age  |  is_retired  |  role"));
+    add(new JLabel("user_id  |  name  |  age  |  is_retired  |  role"));
 
     for (User user : new UserDao().findAll()
     ) {
@@ -25,7 +25,7 @@ public class UsersListPanel extends JPanel {
                   user.age(),
                   user.retired(),
                   user.role()));
-      this.add(userRecordLabel);
+      add(userRecordLabel);
     }
   }
 }
