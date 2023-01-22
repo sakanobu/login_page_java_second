@@ -38,6 +38,8 @@ public class LoginPageListener implements ActionListener {
             loginPagePanel.setResultLabelText("login_idがデータベースに存在しません。");
           } else if (!existPassword) { // passwordフィールドの値のみがuser_authsテーブルに存在しない場合
             loginPagePanel.setResultLabelText("passwordがデータベースに存在しません。");
+          } else { // login_idフィールドとpasswordフィールドの値の組み合わせが間違っている場合
+            loginPagePanel.setResultLabelText("login_idフィールドとpasswordフィールドの値の組み合わせが間違っています。");
           }
         }
       }
