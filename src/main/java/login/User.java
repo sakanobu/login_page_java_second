@@ -1,4 +1,4 @@
 package login;
 
-public record User(String name, int age, boolean retired, String role) {
+public record User(int userId, String name, int age, boolean retired, String role) {
 }

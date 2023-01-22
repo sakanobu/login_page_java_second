@@ -20,7 +20,7 @@ public class UserDao {
 
     System.out.println("\n↓ userDao.findUserByLoginIdAndPassword(\"login1\", \"password1\")");
     User user1 = userDao.findUserByLoginIdAndPassword("login1", "password1");
-    System.out.printf("%s, %d, %b, %s\n", user1.name(), user1.age(),
+    System.out.printf("%d, %s, %d, %b, %s\n", user1.userId(), user1.name(), user1.age(),
         user1.retired(),
         user1.role());
 
@@ -30,7 +30,7 @@ public class UserDao {
     if (userNull == null) {
       System.out.printf("%s", userNull);
     } else {
-      System.out.printf("%s, %d, %b, %s\n", userNull.name(), userNull.age(),
+      System.out.printf("%d, %s, %d, %b, %s\n", userNull.userId(), userNull.name(), userNull.age(),
           userNull.retired(),
           userNull.role());
     }
@@ -46,6 +46,7 @@ public class UserDao {
     User user = null;
     String sql = """
         SELECT
+          u.id,
           u.name,
           u.age,
           u.is_retired,
@@ -67,12 +68,13 @@ public class UserDao {
       rs = ps.executeQuery();
 
       while (rs.next()) {
+        int userId = rs.getInt("u.id");
         String name = rs.getString("u.name");
         int age = rs.getInt("u.age");
         String role = rs.getString("r.name");
         boolean retired = rs.getBoolean("u.is_retired");
 
-        user = new User(name, age, retired, role);
+        user = new User(userId, name, age, retired, role);
       }
     } catch (SQLException e) {
       e.printStackTrace();
