@@ -20,9 +20,9 @@ public class UserDao {
 
     System.out.println("\n↓ userDao.findUserByLoginIdAndPassword(\"login1\", \"password1\")");
     User user1 = userDao.findUserByLoginIdAndPassword("login1", "password1");
-    System.out.printf("%s, %d, %b, %s, %s, %s\n", user1.getName(), user1.getAge(),
+    System.out.printf("%s, %d, %b, %s\n", user1.getName(), user1.getAge(),
         user1.getRetired(),
-        user1.getRole(), user1.getLoginId(), user1.getPassword());
+        user1.getRole());
 
     System.out.println(
         "\n↓ userDao.findUserByLoginIdAndPassword(\"login1\", \"incorrectPassword\")");
@@ -30,9 +30,9 @@ public class UserDao {
     if (userNull == null) {
       System.out.printf("%s", userNull);
     } else {
-      System.out.printf("%s, %d, %b, %s, %s, %s\n", userNull.getName(), userNull.getAge(),
+      System.out.printf("%s, %d, %b, %s\n", userNull.getName(), userNull.getAge(),
           userNull.getRetired(),
-          userNull.getRole(), userNull.getLoginId(), userNull.getPassword());
+          userNull.getRole());
     }
   }
 
@@ -49,9 +49,7 @@ public class UserDao {
           u.name,
           u.age,
           u.is_retired,
-          r.name,
-          ua.login_id,
-          ua.password
+          r.name
         FROM
           users AS u
           INNER JOIN roles AS r ON u.role_id = r.id
@@ -73,10 +71,8 @@ public class UserDao {
         int age = rs.getInt("u.age");
         String role = rs.getString("r.name");
         boolean retired = rs.getBoolean("u.is_retired");
-        String uaLoginId = rs.getString("ua.login_id");
-        String uaPassword = rs.getString("ua.password");
 
-        user = new User(name, age, retired, role, uaLoginId, uaPassword);
+        user = new User(name, age, retired, role);
       }
     } catch (SQLException e) {
       e.printStackTrace();

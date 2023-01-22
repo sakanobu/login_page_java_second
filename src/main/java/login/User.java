@@ -5,17 +5,12 @@ public class User {
   private final int age;
   private final boolean retired;
   private final String role;
-  private final String loginId;
-  private final String password;
 
-  public User(String name, int age, boolean retired, String role, String loginId,
-              String password) {
+  public User(String name, int age, boolean retired, String role) {
     this.name = name;
     this.age = age;
     this.retired = retired;
     this.role = role;
-    this.loginId = loginId;
-    this.password = password;
   }
 
   public String getName() {
@@ -32,13 +27,5 @@ public class User {
 
   public boolean getRetired() {
     return retired;
-  }
-
-  public String getLoginId() {
-    return loginId;
-  }
-
-  public String getPassword() {
-    return password;
   }
 }
