@@ -15,18 +15,21 @@ public class LoginPageListener implements ActionListener {
     String loginId = loginPagePanel.getLoginId();
     String password = loginPagePanel.getPassword();
 
+    // login_idフィールドとpasswordフィールドが両方とも空の場合
     if (loginId.equals("")
-        && password.equals("")) { // login_idフィールドとpasswordフィールドが両方とも空の場合
+        && password.equals("")) {
       loginPagePanel.setResultLabelText("login_idとpasswordが両方とも空です。");
       return;
     }
 
-    if (loginId.equals("")) { // login_idフィールドのみが空である場合
+    // login_idフィールドのみが空である場合
+    if (loginId.equals("")) {
       loginPagePanel.setResultLabelText("login_idが空です。");
       return;
     }
 
-    if (password.equals("")) { // passwordフィールドのみが空である場合
+    // passwordフィールドのみが空である場合
+    if (password.equals("")) {
       loginPagePanel.setResultLabelText("passwordが空です。");
       return;
     }
@@ -35,7 +38,8 @@ public class LoginPageListener implements ActionListener {
     UserDao userDao = new UserDao();
     User user = userDao.findUserByLoginIdAndPassword(loginId, password);
 
-    if (user == null) { // 入力されたlogin_idフィールドとpasswordフィールドの値に何らかの問題がある場合
+    // 入力されたlogin_idフィールドとpasswordフィールドの値に何らかの問題がある場合
+    if (user == null) {
       boolean loginIdExists =
           userDao.queryForCheckingExistence(UserDao.CHECK_LOGIN_ID_QUERY,
               loginId);
@@ -43,18 +47,21 @@ public class LoginPageListener implements ActionListener {
           userDao.queryForCheckingExistence(UserDao.CHECK_PASSWORD_QUERY,
               password);
 
+      // login_idフィールドとpasswordフィールドの値がどちらもuser_authsテーブルに存在しない場合
       if (!loginIdExists
-          && !passwordExists) { // login_idフィールドとpasswordフィールドの値がどちらもuser_authsテーブルに存在しない場合
+          && !passwordExists) {
         loginPagePanel.setResultLabelText("login_idとpasswordが両方ともデータベースに存在しません。");
         return;
       }
 
-      if (!loginIdExists) { // login_idフィールドの値のみがuser_authsテーブルに存在しない場合
+      // login_idフィールドの値のみがuser_authsテーブルに存在しない場合
+      if (!loginIdExists) {
         loginPagePanel.setResultLabelText("login_idがデータベースに存在しません。");
         return;
       }
 
-      if (!passwordExists) { // passwordフィールドの値のみがuser_authsテーブルに存在しない場合
+      // passwordフィールドの値のみがuser_authsテーブルに存在しない場合
+      if (!passwordExists) {
         loginPagePanel.setResultLabelText("passwordがデータベースに存在しません。");
         return;
       }
@@ -70,8 +77,9 @@ public class LoginPageListener implements ActionListener {
       return;
     }
 
+    // rolesテーブルのnameカラムの値が"ログイン不可"であるユーザーであった場合
     if (user.role()
-        .equals("ログイン不可")) { // rolesテーブルのnameカラムの値が"ログイン不可"であるユーザーであった場合
+        .equals("ログイン不可")) {
       loginPagePanel.setResultLabelText("ログインが許可されていないユーザーです。");
       return;
     }
