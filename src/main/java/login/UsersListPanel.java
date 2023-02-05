@@ -14,17 +14,14 @@ public class UsersListPanel extends JPanel {
     setPreferredSize(new Dimension(width, height));
     setBackground(Color.WHITE);
 
-    add(new JLabel("user_id  |  name  |  age  |  is_retired  |  role"));
+    add(new JLabel("user_id | name | age | is_retired | role | login_id | password"));
 
     for (User user : new UserDao().findAll()
     ) {
       JLabel userRecordLabel =
           new JLabel(
-              "%d,              %s,  %d,      %b,             %s\n".formatted(user.userId(),
-                  user.name(),
-                  user.age(),
-                  user.retired(),
-                  user.role()));
+              "%d, %s, %d, %b, %s, %s, %s\n".formatted(user.userId(), user.name(), user.age(),
+                  user.retired(), user.role(), user.loginId(), user.password()));
       add(userRecordLabel);
     }
   }

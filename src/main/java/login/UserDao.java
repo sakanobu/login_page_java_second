@@ -38,16 +38,15 @@ public class UserDao {
     System.out.println("\n↓ userDao.findAll()");
     for (User user : userDao.findAll()
     ) {
-      System.out.printf("%d, %s, %d, %b, %s\n".formatted(user.userId(), user.name(), user.age(),
-          user.retired(),
-          user.role()));
+      System.out.printf(
+          "%d, %s, %d, %b, %s, %s, %s\n".formatted(user.userId(), user.name(), user.age(),
+              user.retired(), user.role(), user.loginId(), user.loginId()));
     }
 
     System.out.println("\n↓ userDao.findUserByLoginIdAndPassword(\"login1\", \"password1\")");
     User user1 = userDao.findUserByLoginIdAndPassword("login1", "password1");
-    System.out.printf("%d, %s, %d, %b, %s\n", user1.userId(), user1.name(), user1.age(),
-        user1.retired(),
-        user1.role());
+    System.out.printf("%d, %s, %d, %b, %s, %s, %s\n", user1.userId(), user1.name(), user1.age(),
+        user1.retired(), user1.role(), user1.loginId(), user1.password());
 
     System.out.println(
         "\n↓ userDao.findUserByLoginIdAndPassword(\"login1\", \"incorrectPassword\")");
@@ -55,9 +54,9 @@ public class UserDao {
     if (userNull == null) {
       System.out.printf("%s", userNull);
     } else {
-      System.out.printf("%d, %s, %d, %b, %s\n", userNull.userId(), userNull.name(), userNull.age(),
-          userNull.retired(),
-          userNull.role());
+      System.out.printf("%d, %s, %d, %b, %s, %s, %s\n", userNull.userId(), userNull.name(),
+          userNull.age(), userNull.retired(), userNull.role(), userNull.loginId(),
+          userNull.password());
     }
   }
 
@@ -75,7 +74,9 @@ public class UserDao {
           u.name,
           u.age,
           u.is_retired,
-          r.name
+          r.name,
+          ua.login_id,
+          ua.password
         FROM
           users AS u
           INNER JOIN roles AS r ON u.role_id = r.id
@@ -93,8 +94,10 @@ public class UserDao {
         int age = rs.getInt("u.age");
         String role = rs.getString("r.name");
         boolean retired = rs.getBoolean("u.is_retired");
+        String loginId = rs.getString("ua.login_id");
+        String password = rs.getString("ua.password");
 
-        allUserList.add(new User(userId, name, age, retired, role));
+        allUserList.add(new User(userId, name, age, retired, role, loginId, password));
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -117,7 +120,7 @@ public class UserDao {
     return allUserList;
   }
 
-  public User findUserByLoginIdAndPassword(String loginId, String password) {
+  public User findUserByLoginIdAndPassword(String inputLoginId, String inputPassword) {
     User user = null;
     String sql = """
         SELECT
@@ -125,7 +128,9 @@ public class UserDao {
           u.name,
           u.age,
           u.is_retired,
-          r.name
+          r.name,
+          ua.login_id,
+          ua.password
         FROM
           users AS u
           INNER JOIN roles AS r ON u.role_id = r.id
@@ -138,8 +143,8 @@ public class UserDao {
     try {
       con = DriverManager.getConnection(url, dbUserName, dbPassword);
       ps = con.prepareStatement(sql);
-      ps.setString(1, loginId);
-      ps.setString(2, password);
+      ps.setString(1, inputLoginId);
+      ps.setString(2, inputPassword);
       rs = ps.executeQuery();
 
       while (rs.next()) {
@@ -148,8 +153,10 @@ public class UserDao {
         int age = rs.getInt("u.age");
         String role = rs.getString("r.name");
         boolean retired = rs.getBoolean("u.is_retired");
+        String loginId = rs.getString("ua.login_id");
+        String password = rs.getString("ua.password");
 
-        user = new User(userId, name, age, retired, role);
+        user = new User(userId, name, age, retired, role, loginId, password);
       }
     } catch (SQLException e) {
       e.printStackTrace();
